@@ -26,6 +26,7 @@ class Aleat:
     15
     20
     1
+
     """
     
     def __init__(self, *, m = 2 ** 48, a = 25214903917, c = 11, X0 = 1212121):
@@ -53,8 +54,36 @@ class Aleat:
         self.x = X0
         return 
     
-    def aleat(*, m=2**48, a=25214903917, c=11, x0=1212121):
-        
+def aleat(*, m=2**48, a=25214903917, c=11, X0=1212121):
+    """
+    Funcion generadora.
+
+    >>> rand = aleat(m=64, a=5, c=46, X0=36)
+    >>> for _ in range(4):
+    ...     print(next(rand))
+    ...
+    34
+    24
+    38
+    44
+
+    >>> rand.send(24)
+    38
+    >>> for _ in range(4):
+    ...     print(next(rand))
+    ...
+    44
+    10
+    32
+    14
+    """
+    x = X0
+    while True:
+        x = (a * x + c) % m
+        aux = yield(x)
+        if aux is not None:
+            x = aux
+    
         
 if __name__ == "__main__":
     import doctest
